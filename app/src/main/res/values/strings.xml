@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LapTrinhAndroid</string>
+    <string-array name="lang">
+        <item>All Category</item>
+        <item>Music</item>
+        <item>Sport</item>
+        <item>SmartHome</item>
+        <item>SmartPhone</item>
+    </string-array>
+</resources>

@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "529145698469",
+    "firebase_url": "https://laptrinhandroid-78606.firebaseio.com",
+    "project_id": "laptrinhandroid-78606",
+    "storage_bucket": "laptrinhandroid-78606.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529145698469:android:90478f8aa3f94600a1154c",
+        "android_client_info": {
+          "package_name": "com.monstar_lab_lifetime.appdemottmon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529145698469-kdlgg92qb5e503stdqs4rdl3pgprn548.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOvObMQAOw5zxbJEAmwxg1qPjme1u0rWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529145698469-kdlgg92qb5e503stdqs4rdl3pgprn548.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529145698469:android:f7793b305b8130f1a1154c",
+        "android_client_info": {
+          "package_name": "com.monstar_lab_lifetime.laptrinhandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529145698469-kdlgg92qb5e503stdqs4rdl3pgprn548.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOvObMQAOw5zxbJEAmwxg1qPjme1u0rWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529145698469-kdlgg92qb5e503stdqs4rdl3pgprn548.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

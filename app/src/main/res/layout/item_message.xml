@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EEEEEE">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cv_message"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/girl"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineMes"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textColor="#000000"
+        android:id="@+id/tv_nameMes"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="Vernon Bradley"
+        android:textSize="22dp"
+        app:layout_constraintLeft_toRightOf="@id/cv_message"
+        app:layout_constraintTop_toTopOf="@id/cv_message" />
+
+    <TextView
+        android:id="@+id/tv_bottom_name"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:text="Shall we meet today?"
+        app:layout_constraintLeft_toRightOf="@id/cv_message"
+        app:layout_constraintTop_toBottomOf="@id/tv_nameMes" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0.48dp"
+        android:layout_marginTop="12dp"
+        android:background="#FF4081"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineMes"
+        app:layout_constraintRight_toRightOf="@id/guidelineMesright"
+        app:layout_constraintTop_toBottomOf="@+id/cv_message" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMesright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+    <TextView
+        android:id="@+id/tv_countMes"
+        android:text="9"
+        android:gravity="center"
+        android:layout_width="20dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/custom_cicrle"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toTopOf="@id/tv_nameMes"
+        app:layout_constraintRight_toRightOf="@id/guidelineMesright"
+        android:layout_height="20dp"/>
+    <TextView
+        android:text="5:05 PM"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_width="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_bottom_name"
+        app:layout_constraintRight_toRightOf="@id/guidelineMesright"
+        android:layout_height="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
