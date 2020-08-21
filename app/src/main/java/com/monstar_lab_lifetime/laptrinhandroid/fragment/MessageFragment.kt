@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnClickObjectSend
+import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.activity.MessageActivity
 import com.monstar_lab_lifetime.laptrinhandroid.adapter.MesAdapter
+import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
 import com.monstar_lab_lifetime.laptrinhandroid.model.MesData
 import kotlinx.android.synthetic.main.fragment_message.*
 import kotlinx.android.synthetic.main.fragment_message.view.*
@@ -21,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
 
-class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend{
+class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick{
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
@@ -31,7 +33,7 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_message, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_message, container, false)
 
         return view
     }
@@ -64,6 +66,10 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend{
     override fun onClick(mesData: MesData, posotion: Int) {
         val intent= Intent(context, MessageActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onClicks(feedData: FeedData, position: Int) {
+
     }
 
 

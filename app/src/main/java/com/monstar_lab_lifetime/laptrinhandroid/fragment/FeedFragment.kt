@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monstar_lab_lifetime.laptrinhandroid.R
-import com.monstar_lab_lifetime.laptrinhandroid.activity.ContentActivity
+import com.monstar_lab_lifetime.laptrinhandroid.acititynew.ContentsActivity
 import com.monstar_lab_lifetime.laptrinhandroid.adapter.FeedAdapter
 import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
 import java.text.SimpleDateFormat
@@ -29,7 +29,7 @@ class FeedFragment : Fragment(){
 
         Log.d("m","okoko")
         //onItemClick=activity as OnItemClick
-        var view = inflater.inflate(R.layout.fragment_feed, container, false)
+        var view = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
         val rc = view.findViewById(R.id.rcy_feed) as RecyclerView
         rc.layoutManager = LinearLayoutManager(view.context)
@@ -98,7 +98,7 @@ class FeedFragment : Fragment(){
         val adapte: FeedAdapter =
             FeedAdapter(
                 mFeedList,
-                activity as ContentActivity
+                activity as ContentsActivity
             )//activity as ContentActivity
         rc.adapter = adapte
         return view

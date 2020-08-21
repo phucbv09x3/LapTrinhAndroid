@@ -41,53 +41,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/textinput_fullname"-->
-<!--        android:layout_width="430dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="22dp"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/imageView2">-->
-
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-
-<!--            android:id="@+id/hint_fullName"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="30dp"-->
-<!--            android:layout_marginRight="30dp"-->
-<!--            android:hint="FULL NAME"-->
-<!--            android:inputType="text" />-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textinput_emailsu"
-        android:layout_width="430dp"
+        android:id="@+id/textinput_fullname"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="22dp"
+        app:layout_constraintLeft_toLeftOf="@id/guideline4"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight4"
         app:layout_constraintTop_toBottomOf="@id/imageView2">
 
         <com.google.android.material.textfield.TextInputEditText
 
+            android:id="@+id/hint_fullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="FULL NAME"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinput_emailsu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="@id/guideline4"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight4"
+        app:layout_constraintTop_toBottomOf="@+id/textinput_fullname">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/hint_emailsignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:hint="EMAIL ADDRESS"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textinput_passwordsu"
-        android:layout_width="430dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/guideline4"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight4"
         app:layout_constraintTop_toBottomOf="@id/textinput_emailsu"
         app:passwordToggleEnabled="true">
 
@@ -96,8 +91,6 @@
             android:id="@+id/hint_passwordsignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:hint="PASSWORD"
             android:inputType="textPassword"
             android:maxLength="15" />
@@ -135,10 +128,9 @@
         android:id="@+id/buttonback"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginLeft="15dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/group_4"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/guideline4"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -168,6 +160,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

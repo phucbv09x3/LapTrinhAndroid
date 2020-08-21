@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.monstar_lab_lifetime.laptrinhandroid.R
+import com.monstar_lab_lifetime.laptrinhandroid.acititynew.ContentsActivity
 import com.monstar_lab_lifetime.laptrinhandroid.activity.SignUpActivity
 import com.monstar_lab_lifetime.laptrinhandroid.database.AccountDatabase
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -26,8 +27,9 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
 
     //private lateinit var sharedPreferences: SharedPreferences
 
-    private var mAccountDatabase: AccountDatabase?=null
-    private lateinit var auth:FirebaseAuth
+    private var mAccountDatabase: AccountDatabase? = null
+    private lateinit var auth: FirebaseAuth
+
     companion object {
         private const val PREF_MAILS = "PREF_MAILS"
         private const val PREF_PASSS = "PREF_PASSS"
@@ -39,7 +41,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         button4.setOnClickListener(this)
         button33.setOnClickListener(this)
 
-        auth=FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
         // loadDataSignIn()
         hint_pass.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -56,6 +58,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
     }
+
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
@@ -89,15 +92,13 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             auth.signInWithEmailAndPassword(hint_email.text.toString(), hint_pass.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                       // Log.d(TAG, "signInWithEmail:success")
                         val user = auth.currentUser
                         updateUI(user)
                     } else {
-                        // If sign in fails, display a message to the user.
-                       // Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         updateUI(null)
                     }
                 }
@@ -113,18 +114,22 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         }
 
     }
-    fun updateUI(currentUser:FirebaseUser?){
-        if (currentUser!=null){
-            if (currentUser.isEmailVerified){
-                Toast.makeText(this,"Success",Toast.LENGTH_LONG).show()
-                startActivity(Intent(this,ContentActivity::class.java))
+
+    fun updateUI(currentUser: FirebaseUser?) {
+        if (currentUser != null) {
+            if (currentUser.isEmailVerified) {
+             //   Toast.makeText(this, "Thành công! \n Cập nhật trang cá nhân nếu chưa có !", Toast.LENGTH_LONG).show()
+                val intent =Intent(this, ContentsActivity::class.java)
+                intent.putExtra("Key",currentUser.email)
+
+                startActivity(intent)
                 finish()
-            }else{
-                Toast.makeText(this,"Please verify your email",Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Please verify your email", Toast.LENGTH_LONG).show()
             }
 
-        }else{
-            Toast.makeText(this,"Login faile",Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, "Login fails", Toast.LENGTH_LONG).show()
         }
     }
 
