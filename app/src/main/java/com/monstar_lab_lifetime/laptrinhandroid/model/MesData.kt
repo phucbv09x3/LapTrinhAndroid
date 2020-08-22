@@ -1,6 +1,10 @@
 package com.monstar_lab_lifetime.laptrinhandroid.model
 
-import kotlin.String
+class MesData{
+    var name: String?=""
+    var image: Int?=0
+    var uid:String=""
+    constructor(){
 
-data class MesData(var name: String, var image: Int?) {
+}
 }

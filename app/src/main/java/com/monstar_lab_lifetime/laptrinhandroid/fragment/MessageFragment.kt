@@ -2,13 +2,17 @@ package com.monstar_lab_lifetime.laptrinhandroid.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnClickObjectSend
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
@@ -42,25 +46,53 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
         super.onViewCreated(view, savedInstanceState)
         view.rcy_mes.layoutManager = LinearLayoutManager(activity)
         view.rcy_mes.setHasFixedSize(true)
-        val myCallback = object: ItemTouchHelper.SimpleCallback(0,
-            ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean = false
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position:Int=viewHolder.adapterPosition
-                mList.removeAt(position)
-                mAdapter.notifyDataSetChanged()
-            }
 
-        }
-        val itemTouchHelper = ItemTouchHelper(myCallback)
-        itemTouchHelper.attachToRecyclerView(rcy_mes)
+//        val myCallback = object: ItemTouchHelper.SimpleCallback(0,
+//            ItemTouchHelper.LEFT) {
+//            override fun onMove(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                target: RecyclerView.ViewHolder
+//            ): Boolean = false
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                val position:Int=viewHolder.adapterPosition
+//                mList.removeAt(position)
+//                mAdapter.notifyDataSetChanged()
+//            }
+//
+//        }
+//        val itemTouchHelper = ItemTouchHelper(myCallback)
+//        itemTouchHelper.attachToRecyclerView(rcy_mes)
+        getAll()
         view.rcy_mes.adapter = mAdapter
         mAdapter.setList(mList)
+        sv_mes.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!TextUtils.isEmpty(query?.trim())){
+
+                    searchUser(query)
+                }else{
+                    getAll()
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (!TextUtils.isEmpty(newText?.trim())){
+                    searchUser(newText)
+                }else{
+                    getAll()
+                }
+                return false
+            }
+
+        })
+    }
+
+    private fun searchUser(newText: String?) {
+
     }
 
     override fun onClick(mesData: MesData, posotion: Int) {
@@ -70,6 +102,31 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
 
     override fun onClicks(feedData: FeedData, position: Int) {
 
+    }
+    fun getAll(){
+        val firebaseUser:FirebaseUser?=FirebaseAuth.getInstance().currentUser
+        Toast.makeText(context,firebaseUser.toString(),Toast.LENGTH_LONG).show()
+        val dataReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("Account")
+        dataReference.addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mList.clear()
+                for (pos in snapshot.children){
+                    val mesData=pos.getValue(MesData::class.java)
+                    if (!mesData?.uid.equals(firebaseUser?.uid)){
+                        mList.add(mesData!!)
+                       // view!!.rcy_mes.adapter = mAdapter
+                        mAdapter.setList(mList)
+                    }
+                }
+
+
+
+            }
+
+        })
     }
 
 

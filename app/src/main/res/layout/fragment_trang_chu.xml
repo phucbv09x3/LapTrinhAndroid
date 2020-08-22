@@ -19,8 +19,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/imtesst"
+        <ImageView
+            android:id="@+id/imgtesst"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="20dp"
@@ -28,7 +28,8 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_baseline_photo_camera_24"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+             />
 
         <TextView
             android:id="@+id/testText"
@@ -40,22 +41,34 @@
             android:textColor="#000000"
             android:textSize="30dp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/imtesst"
+            app:layout_constraintLeft_toRightOf="@id/imgtesst"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/imtesst" />
+            app:layout_constraintTop_toTopOf="@id/imgtesst" />
 
         <TextView
-            android:id="@+id/testEmail"
+        android:id="@+id/testEmail"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:text="chưa cập nhật "
+        android:textColor="#000000"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toRightOf="@id/imgtesst"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/testText" />
+        <Button
+            android:id="@+id/btnLogout"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="40dp"
             android:layout_marginRight="20dp"
             android:gravity="center"
-            android:text="chưa cập nhật "
+            android:text="Logout "
             android:textColor="#000000"
             android:textSize="15dp"
-            app:layout_constraintLeft_toRightOf="@id/imtesst"
+            app:layout_constraintLeft_toRightOf="@id/imgtesst"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/testText" />
+            app:layout_constraintTop_toBottomOf="@id/testEmail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

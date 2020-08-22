@@ -19,8 +19,6 @@ class ContentsActivity : AppCompatActivity(),OnItemClick {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contents)
 
-        val inten=intent
-        val mail=inten.getStringExtra("Key")
 
         tabLayOut=findViewById(R.id.tabLayout)
         viewPager=findViewById(R.id.viewPager)
@@ -55,27 +53,5 @@ class ContentsActivity : AppCompatActivity(),OnItemClick {
     override fun onClicks(feedData: FeedData, position: Int) {
         val messageFragment=MessageFragment()
         val m=viewPager!!.setCurrentItem(1)
-        var mNumber: Int = -1
-                (m as? MessageFragment)?.let {
-                    it.mList.forEachIndexed { index, mesData ->
-                        if (it.mList[index].name.equals(feedData.mName)) {
-                            mNumber = index
-                        }
-                    }
-                    if (mNumber != -1) {
-                        it.mList.removeAt(mNumber)
-                    }
-                    it.mList.add(
-                        0,
-                        MesData(
-                            feedData.mName,
-                            feedData.mImageProfile
-                        )
-                    )
-                    // var m=mAccountDatabase.accountDAO().getMes()
-                    // var n= mAccountDatabase.accountDAO().findInboxByName(feedData.mName)
-                    //it.mList.add(MesData(n?.name,n?.image))
-                    it.mAdapter?.setList(it.mList)
-                }
     }
 }
