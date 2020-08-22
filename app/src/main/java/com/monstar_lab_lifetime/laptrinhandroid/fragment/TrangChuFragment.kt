@@ -2,22 +2,27 @@ package com.monstar_lab_lifetime.laptrinhandroid.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.activity.SignInActivity
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_trang_chu.*
 
 class TrangChuFragment : Fragment() {
@@ -37,8 +42,19 @@ class TrangChuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
+
+
+
+        return inflater!!.inflate(R.layout.fragment_trang_chu, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         mAuth = FirebaseAuth.getInstance()
-         userCurrent = mAuth!!.currentUser
+        userCurrent = mAuth?.currentUser
         //Toast.makeText(context, user?.uid, Toast.LENGTH_LONG).show()
 
         firebaseDatabase = FirebaseDatabase.getInstance()
@@ -56,19 +72,20 @@ class TrangChuFragment : Fragment() {
 
                 val name = snapshot.child("name").value.toString()
                 val mail = snapshot.child("mail").value.toString()
+
+                val image=snapshot.child("img").value.toString()
                 testText.setText(name)
                 testEmail.setText(mail)
+
+                val avatar=view.findViewById<ImageView>(R.id.imgtesst)
+                Picasso.get().load(image).into(avatar)
+
+               // imgtesst.setImageURI(image)
+
             }
         })
 
 
-
-        return inflater!!.inflate(R.layout.fragment_trang_chu, container, false)
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         btnLogout.setOnClickListener {
             mAuth.signOut()
             startActivity(Intent(context, SignInActivity::class.java))
@@ -89,11 +106,35 @@ class TrangChuFragment : Fragment() {
             var uriImg = data.data
             //imgtesst.setImageURI(uriImg)
             //val user = mAuth.currentUser
+            if(uriImg!=null){
+                var imgRe=FirebaseStorage.getInstance().getReference(userCurrent?.uid.toString()).child("image")
+                val imgname=imgRe.child(""+uriImg)
+                imgname.putFile(uriImg).addOnSuccessListener(object :OnSuccessListener<UploadTask.TaskSnapshot>{
+                    override fun onSuccess(p0: UploadTask.TaskSnapshot?) {
 
-//            val hash = HashMap<String, String>()
-//            hash.put("img", uriImg.toString())
+                        imgname.downloadUrl.addOnSuccessListener(object :OnSuccessListener<Uri>{
+                            override fun onSuccess(p0: Uri?) {
+                                val imageStore=FirebaseDatabase.getInstance().getReference("Account").child(userCurrent?.uid.toString())
+                                val hashMap=HashMap<String,Any>()
+                                hashMap.put("img",p0.toString())
+                                hashMap.put("mail",userCurrent!!.email.toString())
+                                hashMap.put("name", testText.text.toString())
+                                hashMap.put("uid",userCurrent!!.uid)
+                                imageStore.setValue(hashMap).addOnSuccessListener(object : OnSuccessListener<Void>{
+                                    override fun onSuccess(p0: Void?) {
 
-            imgtesst.setImageURI(userCurrent!!.photoUrl)
+                                    }
+
+                                })
+                            }
+
+                        })
+                    }
+
+                })
+
+
+            }
 
         }
     }

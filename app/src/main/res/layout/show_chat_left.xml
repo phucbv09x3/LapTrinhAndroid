@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_chatLeft"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/iconapp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_chatLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/rectange_background_send"
+        android:gravity="center_vertical"
+        android:maxWidth="300dp"
+        android:paddingLeft="13dp"
+        android:paddingTop="4dp"
+        android:paddingRight="13dp"
+        android:paddingBottom="4dp"
+        android:text="Hello ba con"
+        android:textColor="#000000"
+        app:layout_constraintLeft_toRightOf="@id/img_chatLeft"
+        app:layout_constraintTop_toTopOf="@id/img_chatLeft" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+
+    <TextView
+        android:id="@+id/tv_isSeen"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="right"
+        android:paddingRight="10dp"
+        android:text="delivered"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tv_chatLeft" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

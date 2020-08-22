@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -92,11 +91,37 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
     }
 
     private fun searchUser(newText: String?) {
+        val firebaseUser:FirebaseUser?=FirebaseAuth.getInstance().currentUser
+        val dataReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("Account")
+        dataReference.addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+            }
 
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mList.clear()
+                for (pos in snapshot.children){
+                    val mesData=pos.getValue(MesData::class.java)
+                    if (!mesData?.uid.equals(firebaseUser?.uid)){
+
+                        if (mesData?.name?.toLowerCase()!!.contains(newText!!.toLowerCase())){
+                            mList.add(mesData!!)
+                        }
+
+                        // view!!.rcy_mes.adapter = mAdapter
+                        mAdapter.setList(mList)
+                    }
+                }
+
+
+
+            }
+
+        })
     }
 
     override fun onClick(mesData: MesData, posotion: Int) {
         val intent= Intent(context, MessageActivity::class.java)
+        intent.putExtra("key",mesData.uid)
         startActivity(intent)
     }
 
@@ -105,7 +130,6 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
     }
     fun getAll(){
         val firebaseUser:FirebaseUser?=FirebaseAuth.getInstance().currentUser
-        Toast.makeText(context,firebaseUser.toString(),Toast.LENGTH_LONG).show()
         val dataReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("Account")
         dataReference.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
