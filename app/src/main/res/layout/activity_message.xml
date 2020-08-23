@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.monstar_lab_lifetime.laptrinhandroid.activity.MessageActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgPeopleSend"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
         android:src="@drawable/iconapp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_width="70dp"
+        android:layout_marginLeft="12dp"
+        android:layout_height="70dp"/>
     <TextView
         android:id="@+id/tv_PeopleSend"
         android:text="name"
-        android:textSize="35dp"
+        android:textSize="25dp"
         android:textColor="#000000"
         android:textStyle="bold"
         android:gravity="center"
@@ -26,7 +28,7 @@
         app:layout_constraintRight_toLeftOf="@id/btn_send"
         android:layout_width="0dp"
         android:layout_marginLeft="8dp"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"/>
     <EditText
     android:id="@+id/edt_send"
     app:layout_constraintBottom_toBottomOf="parent"

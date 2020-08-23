@@ -118,6 +118,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, CoroutineScope
                                 hash.put("mail", mail!!)
                                 hash.put("name", hint_fullName.text.toString())
                                 hash.put("img", "default")
+                                hash.put("uid", userId.toString())
                                 mFirebase?.child( userId!!)?.setValue(hash)
 
                                 user?.sendEmailVerification()?.addOnCompleteListener { task ->

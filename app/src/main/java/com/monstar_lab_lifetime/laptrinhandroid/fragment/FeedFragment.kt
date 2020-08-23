@@ -1,5 +1,7 @@
 package com.monstar_lab_lifetime.laptrinhandroid.fragment
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,28 +9,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.*
 import com.monstar_lab_lifetime.laptrinhandroid.R
-import com.monstar_lab_lifetime.laptrinhandroid.acititynew.ContentsActivity
-import com.monstar_lab_lifetime.laptrinhandroid.adapter.FeedAdapter
-import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
+import com.monstar_lab_lifetime.laptrinhandroid.adapter.StatusAdapter
+import com.monstar_lab_lifetime.laptrinhandroid.model.Status
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class FeedFragment : Fragment(){
-    private var mFeedList :MutableList<FeedData> = mutableListOf()
-   // private var type = arrayOf("Hello", "Goodbye", "Xin Chao")
+    private var mFeedList :MutableList<Status> = mutableListOf()
+   private var statusAdapter=StatusAdapter(mFeedList)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        check()
 
-        Log.d("m","okoko")
-        //onItemClick=activity as OnItemClick
         var view = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
         val rc = view.findViewById(R.id.rcy_feed) as RecyclerView
@@ -42,69 +44,52 @@ class FeedFragment : Fragment(){
         )
         spinner.adapter = adapter
         Log.d("o", "ok")
-
-
-        mFeedList.add(
-            FeedData(
-                R.drawable.ngoc,
-                "Martin Palmer",
-                getCurrentDate(),
-                "What is the loop of Creation? How is there phuc bui something from nothing? In spite of the fact that it is impossible to prove that anythin…."
-                , 0
-
-            )
-        )
-        mFeedList.add(
-            FeedData(
-                R.drawable.mytam,
-                "Daniel Leonarda",
-                getCurrentDate(),
-                "What is the loop of Creation? How is there something from nothing? In spite of the fact that it is impossible to prove that anythin…."
-                ,
-                R.drawable.real
-            )
-        )
-        mFeedList.add(
-            FeedData(
-                R.drawable.billgate,
-                "Raphel Nadal",
-                getCurrentDate(),
-                "What is the loop of Creation? How is there something from nothing? In spite of the fact that it is impossible to prove that anythin…."
-                ,
-                R.drawable.vn
-            )
-        )
-        mFeedList.add(
-            FeedData(
-                R.drawable.fesuson,
-                "Martil Phekol",
-                getCurrentDate(),
-                "What is the loop of Creation? How is there something from nothing? In spite of the fact that it is impossible to prove that anythin…."
-                ,
-                R.drawable.rectangle_copy
-            )
-        )
-        mFeedList.add(
-            FeedData(
-                R.drawable.kaka,
-                "Horoku Pental",
-                getCurrentDate(),
-                "What is the loop of Creation? How is there something from nothing? In spite of the fact that it is impossible to prove that anythin…."
-                ,
-                R.drawable.vn
-            )
-        )
-
-        val adapte: FeedAdapter =
-            FeedAdapter(
-                mFeedList,
-                activity as ContentsActivity
-            )//activity as ContentActivity
-        rc.adapter = adapte
+        getAll()
+        rc.adapter = statusAdapter
         return view
     }
 
+    fun check(){
+        val connectManager=context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val wifi=connectManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        val mobileData=connectManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        if (wifi.isConnectedOrConnecting){
 
+        }else{
+            if (mobileData.isConnectedOrConnecting){
+
+            }else{
+                Toast.makeText(context,"Không có internet !!",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    fun getAll(){
+
+        //val firebaseUser: FirebaseUser?= FirebaseAuth.getInstance().currentUser
+        var dataReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Status")
+        //val query=dataReference.orderByChild("email").equalTo(firebaseUser!!.email)
+        dataReference.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mFeedList.clear()
+                for (pos in snapshot.children){
+                    var status: Status =pos.getValue(Status::class.java)!!
+                    //Toast.makeText(context,pos.child("img").toString(), Toast.LENGTH_LONG).show()
+                        var obStatus= Status(pos.child("imageMy").value.toString(), pos.child("img").value.toString(),pos.child("nameMy").value.toString(),
+                       pos.child("text").value.toString()
+                        ,pos.child("uid").value.toString(),pos.child("time").value.toString())
+                      //  var po=pos.child("img").toString()
+                        mFeedList.add(obStatus)
+
+                        statusAdapter.setLisst(mFeedList)
+
+                }
+            }
+
+        })
+    }
     private fun getCurrentDate():String {
         val date = Date()
         val dateFormat = "dd/MM/yyyy hh:mm"

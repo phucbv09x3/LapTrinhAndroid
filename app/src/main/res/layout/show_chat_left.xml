@@ -27,9 +27,10 @@
         android:maxWidth="300dp"
         android:paddingLeft="13dp"
         android:paddingTop="4dp"
+        android:textSize="18dp"
         android:paddingRight="13dp"
         android:paddingBottom="4dp"
-        android:text="Hello ba con"
+        android:text="hello"
         android:textColor="#000000"
         app:layout_constraintLeft_toRightOf="@id/img_chatLeft"
         app:layout_constraintTop_toTopOf="@id/img_chatLeft" />

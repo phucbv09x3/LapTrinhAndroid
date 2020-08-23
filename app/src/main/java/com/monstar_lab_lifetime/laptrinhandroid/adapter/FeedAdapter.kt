@@ -3,11 +3,12 @@ package com.monstar_lab_lifetime.laptrinhandroid.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
+import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
 
 class FeedAdapter(var feedList: MutableList<FeedData>, var onItemClick: OnItemClick) :
     RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {

@@ -3,6 +3,7 @@ package com.monstar_lab_lifetime.laptrinhandroid.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,13 +65,13 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
 //        }
 //        val itemTouchHelper = ItemTouchHelper(myCallback)
 //        itemTouchHelper.attachToRecyclerView(rcy_mes)
-        getAll()
+
         view.rcy_mes.adapter = mAdapter
-        mAdapter.setList(mList)
+       // mAdapter.setList(mList)
+        getAll()
         sv_mes.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!TextUtils.isEmpty(query?.trim())){
-
                     searchUser(query)
                 }else{
                     getAll()
@@ -105,9 +106,8 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
 
                         if (mesData?.name?.toLowerCase()!!.contains(newText!!.toLowerCase())){
                             mList.add(mesData!!)
-                        }
 
-                        // view!!.rcy_mes.adapter = mAdapter
+                        }
                         mAdapter.setList(mList)
                     }
                 }
@@ -130,7 +130,8 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
     }
     fun getAll(){
         val firebaseUser:FirebaseUser?=FirebaseAuth.getInstance().currentUser
-        val dataReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("Account")
+        var dataReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("Account")
+        //val query=dataReference.orderByChild("email").equalTo(firebaseUser!!.email)
         dataReference.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
             }
@@ -138,16 +139,18 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
             override fun onDataChange(snapshot: DataSnapshot) {
                 mList.clear()
                 for (pos in snapshot.children){
-                    val mesData=pos.getValue(MesData::class.java)
-                    if (!mesData?.uid.equals(firebaseUser?.uid)){
-                        mList.add(mesData!!)
-                       // view!!.rcy_mes.adapter = mAdapter
+                    var mesData:MesData=pos.getValue(MesData::class.java)!!
+                    //Toast.makeText(context,pos.child("img").toString(), Toast.LENGTH_LONG).show()
+                    if (!mesData!!.uid.equals(firebaseUser!!.uid)){
+                        val me=MesData(pos.child("name").value!!.toString(),pos.child("img").value!!.toString(),pos.child("uid").value.toString())
+                       // var po=pos.child("img").toString()
+
+                        mList.add(me)
+                        Log.d("ok",pos.child("img").toString())
+                       // mList.add(mesData!!)
                         mAdapter.setList(mList)
                     }
                 }
-
-
-
             }
 
         })

@@ -49,7 +49,6 @@ class ContentsActivity : AppCompatActivity(),OnItemClick {
         })
 
     }
-
     override fun onClicks(feedData: FeedData, position: Int) {
         val messageFragment=MessageFragment()
         val m=viewPager!!.setCurrentItem(1)

@@ -122,7 +122,7 @@
         android:layout_height="30dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:background="@drawable/rectange_background_send"
+        android:background="@drawable/rectag_share"
         android:text="Share"
         android:textAllCaps="false"
         android:textStyle="normal"

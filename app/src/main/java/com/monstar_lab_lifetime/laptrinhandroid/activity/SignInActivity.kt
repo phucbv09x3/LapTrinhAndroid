@@ -1,14 +1,19 @@
 package com.monstar_lab_lifetime.laptrinhandroid.activity
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.monstar_lab_lifetime.laptrinhandroid.R
@@ -59,11 +64,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
-    }
 
     override fun onClick(v: View?) {
 
@@ -115,13 +115,17 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
+    }
     fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
             if (currentUser.isEmailVerified) {
              //   Toast.makeText(this, "Thành công! \n Cập nhật trang cá nhân nếu chưa có !", Toast.LENGTH_LONG).show()
                 val intent =Intent(this, ContentsActivity::class.java)
-                intent.putExtra("Key",currentUser.email)
-
+               // intent.putExtra("Key",currentUser.email)
                 startActivity(intent)
                 finish()
             } else {
@@ -162,7 +166,32 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun clickFogot(view: View) {
-        val intentView = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"))
-        startActivity(intentView)
+        val buider=AlertDialog.Builder(this)
+        buider.setTitle("Đặt lại mật khẩu")
+        val linea=LinearLayout(this)
+
+        val edt_mail=EditText(this)
+        linea.addView(edt_mail)
+        buider.setView(linea)
+        edt_mail.setHint("Nhập email bạn cần khôi phục mật khẩu")
+        buider.setPositiveButton("Gửi",{dialog: DialogInterface?, which: Int ->
+            val mAuth=FirebaseAuth.getInstance().sendPasswordResetEmail(edt_mail.text.toString().trim())
+                .addOnCompleteListener(object :OnCompleteListener<Void>{
+                    override fun onComplete(p0: Task<Void>) {
+                        if (p0.isSuccessful){
+                            Toast.makeText(this@SignInActivity,"Send success....",Toast.LENGTH_LONG).show()
+                        }
+                        else{
+                            Toast.makeText(this@SignInActivity,"Send failed....",Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                })
+        })
+       buider.setNegativeButton("Không",{
+           dialog: DialogInterface?, which: Int ->
+           finish()
+       })
+        buider.show()
     }
 }

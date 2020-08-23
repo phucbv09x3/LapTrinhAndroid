@@ -1,10 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.AddFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_createAdd"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="Tạo bài viết"
+            android:textColor="#000000"
+            android:textSize="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="70dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="12dp"
+            android:background="#FFFFFF"
+            android:text="Đăng"
+            android:textSize="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_createAdd"
+            app:layout_constraintTop_toTopOf="@id/tv_createAdd" />
+
+        <TextView
+            android:id="@+id/tv_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="6dp"
+            android:background="#FFAB40"
+            app:layout_constraintTop_toBottomOf="@id/tv_createAdd" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cv_imageMy"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/iconapp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_line" />
+
+        <TextView
+            android:id="@+id/tv_my"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="Bùi Văn Phúc"
+            android:textColor="#000000"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="@id/cv_imageMy"
+            app:layout_constraintLeft_toRightOf="@id/cv_imageMy"
+            app:layout_constraintTop_toTopOf="@id/cv_imageMy" />
+
+        <EditText
+            android:id="@+id/ed_add"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_imageMy" />
+
+        <Button
+            android:id="@+id/btn_addImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="Chọn ảnh"
+            app:layout_constraintLeft_toLeftOf="@id/ed_add"
+            app:layout_constraintTop_toBottomOf="@id/ed_add" />
+
+        <ImageView
+            android:id="@+id/iv_choseImage"
+            android:layout_width="0dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_addImage"
+            app:layout_constraintLeft_toLeftOf="@id/btn_addImage"
+            app:layout_constraintRight_toRightOf="@id/ed_add" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>
