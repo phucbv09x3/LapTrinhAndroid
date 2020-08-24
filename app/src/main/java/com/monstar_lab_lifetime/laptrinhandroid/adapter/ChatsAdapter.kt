@@ -47,19 +47,19 @@ class ChatsAdapter :
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         var list=listChat[position]
         holder.message.text=list.message
-        // holder.time.text=list.time
 
-        if (position==listChat.size-1){
-            if (listChat[position].isSeen){
-                holder.xacnhan.setText("Seen")
-            }else {
-                holder.xacnhan.setText("Delivered")
-            }
 
-        }
-        else{
-            holder.xacnhan.visibility=View.GONE
-        }
+//        if (position==listChat.size-1){
+//            if (listChat[position].isSeen){
+//                holder.xacnhan.setText("Seen")
+//            }else {
+//                holder.xacnhan.setText("Delivered")
+//            }
+//
+//        }
+//        else{
+//            holder.xacnhan.visibility=View.GONE
+//        }
     }
 
     override fun getItemViewType(position: Int): Int {

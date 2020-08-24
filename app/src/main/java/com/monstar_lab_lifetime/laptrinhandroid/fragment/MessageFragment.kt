@@ -101,19 +101,16 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
             override fun onDataChange(snapshot: DataSnapshot) {
                 mList.clear()
                 for (pos in snapshot.children){
-                    val mesData=pos.getValue(MesData::class.java)
+                    var mesData=pos.getValue(MesData::class.java)
                     if (!mesData?.uid.equals(firebaseUser?.uid)){
 
                         if (mesData?.name?.toLowerCase()!!.contains(newText!!.toLowerCase())){
-                            mList.add(mesData!!)
-
+                            mList.add(mesData)
+                            mAdapter.setList(mList)
                         }
-                        mAdapter.setList(mList)
                     }
+                    mAdapter.setList(mList)
                 }
-
-
-
             }
 
         })
@@ -142,7 +139,7 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
                     var mesData:MesData=pos.getValue(MesData::class.java)!!
                     //Toast.makeText(context,pos.child("img").toString(), Toast.LENGTH_LONG).show()
                     if (!mesData!!.uid.equals(firebaseUser!!.uid)){
-                        val me=MesData(pos.child("name").value!!.toString(),pos.child("img").value!!.toString(),pos.child("uid").value.toString())
+                        val me=MesData(pos.child("name").value!!.toString(),pos.child("img").value!!.toString(),pos.child("uid").value.toString(),pos.child("mail").value.toString())
                        // var po=pos.child("img").toString()
 
                         mList.add(me)

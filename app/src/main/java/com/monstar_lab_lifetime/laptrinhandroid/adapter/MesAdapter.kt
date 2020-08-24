@@ -25,7 +25,7 @@ class MesAdapter(
     class MesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var mNameMess = itemView.findViewById(R.id.tv_nameMes) as TextView
         var mImage = itemView.findViewById(R.id.cv_message) as CircleImageView
-        var key = itemView.findViewById(R.id.tv_bottom_name) as TextView
+        var mail = itemView.findViewById(R.id.tv_bottom_name) as TextView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MesViewHolder {
@@ -45,16 +45,21 @@ class MesAdapter(
     override fun onBindViewHolder(holder: MesViewHolder, position: Int) {
         var list = list[position]
         holder.mNameMess.text = list.name
-        holder.key.text = list.uid
-        var imageV = list.image!!
+        holder.mail.text = list.mail
+        var imageV = list.image
+        if (imageV.trim().isEmpty()) {
 
-       try {
-           Picasso.get().load(list.image).placeholder(R.drawable.iconapp).into(holder.mImage)
-       }catch (e:IOException){
-           Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show()
-       }
-        holder.itemView.setOnClickListener {
-            onClickItemSend.onClick(list, position)
+            Picasso.get().load("http")
+                .into(holder.mImage)
+        } else {
+            try {
+                Picasso.get().load(list.image).placeholder(R.drawable.iconapp).into(holder.mImage)
+            } catch (e: IOException) {
+                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
+            }
+            holder.itemView.setOnClickListener {
+                onClickItemSend.onClick(list, position)
+            }
         }
     }
 }

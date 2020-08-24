@@ -116,9 +116,10 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onStart() {
-        super.onStart()
         val currentUser = auth.currentUser
         updateUI(currentUser)
+        super.onStart()
+
     }
     fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
@@ -133,7 +134,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         } else {
-            Toast.makeText(this, "Login fails", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -190,7 +191,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         })
        buider.setNegativeButton("Không",{
            dialog: DialogInterface?, which: Int ->
-           finish()
+           dialog!!.dismiss()
        })
         buider.show()
     }

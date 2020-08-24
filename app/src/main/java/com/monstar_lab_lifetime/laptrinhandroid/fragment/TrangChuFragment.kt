@@ -1,6 +1,8 @@
 package com.monstar_lab_lifetime.laptrinhandroid.fragment
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,8 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnSuccessListener
@@ -93,7 +94,52 @@ class TrangChuFragment : Fragment() {
             startActivityForResult(intent, REQUES_CODE)
         }
 
+        btnChangePass.setOnClickListener {
+            change()
+        }
 
+    }
+    fun  change(){
+        val buider= AlertDialog.Builder(context)
+        buider.setTitle("Thay đổi mật khẩu")
+        val linea=LinearLayout(context)
+        linea.orientation=LinearLayout.VERTICAL
+        val tv_email=TextView(context)
+        tv_email.setText(testEmail.text.toString())
+        tv_email.setPadding(80,10,10,10)
+        val edt_pass=EditText(context)
+
+        val confim=EditText(context)
+        linea.addView(tv_email)
+        linea.addView(edt_pass)
+        linea.addView(confim)
+        buider.setView(linea)
+        edt_pass.setHint("Nhập mật khẩu hiện tại")
+        confim.setHint("Nhập lại mật khẩu")
+        userCurrent=FirebaseAuth.getInstance().currentUser
+        buider.setPositiveButton("Thay đổi",{dialog: DialogInterface?, which: Int ->
+            if (!confim.text.toString().trim().equals(edt_pass.text.toString())){
+                Toast.makeText(context,"Mật khẩu không khợp",Toast.LENGTH_LONG).show()
+            }
+            else{
+                userCurrent?.let {
+                    it.updatePassword(edt_pass.text.toString().trim())
+                        .addOnCompleteListener{
+                            task ->
+                            if (task.isSuccessful){
+                                Toast.makeText(context,"Thay đổi thành công !",Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+
+                }
+            }
+        })
+        buider.setNegativeButton("Không",{
+                dialog: DialogInterface?, which: Int ->
+            dialog!!.dismiss()
+        })
+        buider.show()
     }
     fun getStatus(){
         var curr=FirebaseAuth.getInstance().currentUser

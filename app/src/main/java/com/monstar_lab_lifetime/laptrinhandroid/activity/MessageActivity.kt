@@ -2,6 +2,7 @@ package com.monstar_lab_lifetime.laptrinhandroid.activity
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,36 +18,39 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_message.*
 
 class MessageActivity : AppCompatActivity() {
-    private var uidPeople:String=""
-    private var listChat= mutableListOf<Chats>()
-   var chatAdapter=ChatsAdapter()
-    private var user:FirebaseUser?=null
-    private var userRef:DatabaseReference?=null
-    private var seenListener:ValueEventListener?=null
+    private var uidPeople: String = ""
+    private var listChat = mutableListOf<Chats>()
+    var chatAdapter = ChatsAdapter()
+    private var user: FirebaseUser? = null
+    private var userRef: DatabaseReference? = null
+    private var seenListener: ValueEventListener? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
         readMes()
         seenMess()
-        val inten=intent
-         uidPeople=inten.getStringExtra("key")
-        val firebaseAuth=FirebaseAuth.getInstance()
-        val firebaseDatabase=FirebaseDatabase.getInstance()
-        val firebaseReference=firebaseDatabase.getReference("Account")
-        val query=firebaseReference.orderByChild("uid").equalTo(uidPeople)
-        query.addValueEventListener(object : ValueEventListener{
+        val inten = intent
+        uidPeople = inten.getStringExtra("key")
+        Log.d("phuc",uidPeople.toString())
+        //Toast.makeText(this@MessageActivity,uidPeople.toString(),Toast.LENGTH_LONG).show()
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val firebaseReference = firebaseDatabase.getReference("Account")
+        val query = firebaseReference.orderByChild("uid").equalTo(uidPeople)
+        query.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (pos in snapshot.children){
-                    val name=pos.child("name").value
-                    val imge=pos.child("img").value
-                    val pathOf=findViewById<CircleImageView>(R.id.imgPeopleSend)
+                for (pos in snapshot.children) {
+                    val name = pos.child("name").value.toString()
+                    val imge = pos.child("img").value.toString()
 
-                    tv_PeopleSend.setText(name.toString())
-                    Picasso.get().load(imge.toString()).placeholder(R.drawable.iconapp).into(pathOf)
+                  //  Toast.makeText(this@MessageActivity,imge,Toast.LENGTH_LONG).show()
+                    val pathOf = findViewById<CircleImageView>(R.id.imgPeopleSend)
+                    tv_PeopleSend.setText(name)
+                    Picasso.get().load(imge).placeholder(R.drawable.iconapp).into(pathOf)
 
 
                 }
@@ -55,19 +59,20 @@ class MessageActivity : AppCompatActivity() {
 
         })
         btn_send.setOnClickListener {
-            val getMessage=edt_send.text.toString()
-            if (TextUtils.isEmpty(getMessage)){
-                Toast.makeText(applicationContext,"Bạn muốn nhắn tin không !!",Toast.LENGTH_LONG).show()
-            }else{
-                val time=System.currentTimeMillis()
-                user=FirebaseAuth.getInstance().currentUser
-                val dtbRef=FirebaseDatabase.getInstance().reference
-                val hashMap=HashMap<String,Any>()
-                hashMap.put("sender",user!!.uid)
-                hashMap.put("receive",uidPeople)
-                hashMap.put("message",getMessage)
-                hashMap.put("time",time.toString())
-                hashMap.put("isSeen",false)
+            val getMessage = edt_send.text.toString()
+            if (TextUtils.isEmpty(getMessage)) {
+                Toast.makeText(applicationContext, "Bạn muốn nhắn tin không !!", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                val time = System.currentTimeMillis()
+                user = FirebaseAuth.getInstance().currentUser
+                val dtbRef = FirebaseDatabase.getInstance().reference
+                val hashMap = HashMap<String, Any>()
+                hashMap.put("sender", user!!.uid)
+                hashMap.put("receive", uidPeople)
+                hashMap.put("message", getMessage)
+                hashMap.put("time", time.toString())
+                hashMap.put("isSeen", false)
                 dtbRef.child("Chats").push().setValue(hashMap)
                 edt_send.setText("")
             }
@@ -77,26 +82,29 @@ class MessageActivity : AppCompatActivity() {
 
         rc.setHasFixedSize(true)
 
-        rcy_chat.adapter=chatAdapter
+        rcy_chat.adapter = chatAdapter
         chatAdapter?.setList(listChat)
 
     }
 
-    fun readMes(){
+    fun readMes() {
 
-        userRef=FirebaseDatabase.getInstance().getReference("Chats")
-        userRef?.addValueEventListener(object : ValueEventListener{
+        userRef = FirebaseDatabase.getInstance().getReference("Chats")
+        userRef?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 
             }
+
             override fun onDataChange(snapshot: DataSnapshot) {
                 listChat.clear()
-                for (pos in snapshot.children){
-                    var chats=pos.getValue(Chats::class.java)
-                    if (chats?.receive.equals(user?.uid)&&chats?.sender.equals(uidPeople)||
-                        chats?.receive.equals(uidPeople)&&chats?.sender.equals(user?.uid)){
+                for (pos in snapshot.children) {
+                    var chats = pos.getValue(Chats::class.java)
+                    if (chats?.receive.equals(user?.uid) && chats?.sender.equals(uidPeople) ||
+                        chats?.receive.equals(uidPeople) && chats?.sender.equals(user?.uid)
+                    ) {
                         listChat.add(chats!!)
                         chatAdapter?.setList(listChat)
+
 
                     }
                 }
@@ -114,22 +122,22 @@ class MessageActivity : AppCompatActivity() {
         finish()
         super.onBackPressed()
     }
-    fun seenMess(){
 
-        userRef=FirebaseDatabase.getInstance().getReference("Chats")
-        seenListener= userRef?.addValueEventListener(object : ValueEventListener{
+    fun seenMess() {
+
+        userRef = FirebaseDatabase.getInstance().getReference("Chats")
+        seenListener = userRef?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (pos in snapshot.children){
+                for (pos in snapshot.children) {
 
-                    val chats=pos.getValue(Chats::class.java)
-                    if (chats?.receive.equals(user?.uid)&&chats?.sender.equals(uidPeople)){
-                        val hashMap= hashMapOf<String,Any>()
-
-                        hashMap.put("isSeen",true)
+                    val chats = pos.getValue(Chats::class.java)
+                    if (chats?.receive.equals(user?.uid) && chats?.sender.equals(uidPeople)) {
+                        val hashMap = hashMapOf<String, Any>()
+                        hashMap.put("isSeen", true)
                         pos.ref.updateChildren(hashMap)
 
 
