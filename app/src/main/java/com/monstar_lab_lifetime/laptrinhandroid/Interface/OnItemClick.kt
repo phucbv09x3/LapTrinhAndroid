@@ -1,8 +1,8 @@
 package com.monstar_lab_lifetime.laptrinhandroid.Interface
 
-import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
+import com.monstar_lab_lifetime.laptrinhandroid.model.Status
 
 interface OnItemClick {
-    fun onClicks(feedData: FeedData, position: Int)
+    fun onClicks(list: Status, position: Int)
 
 }

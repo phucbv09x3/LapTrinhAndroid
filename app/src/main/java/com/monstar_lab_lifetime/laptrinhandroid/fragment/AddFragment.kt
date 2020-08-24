@@ -1,6 +1,7 @@
 package com.monstar_lab_lifetime.laptrinhandroid.fragment
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -27,7 +28,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_add.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class AddFragment : Fragment() {
@@ -85,48 +85,56 @@ class AddFragment : Fragment() {
 
         btn_add.setOnClickListener {
 
-            if (ed_add.text.toString().trim().isEmpty() && !iv_choseImage.isSelected) {
-                Toast.makeText(context, "Bạn chưa chọn thông tin để đăng ", Toast.LENGTH_LONG).show()
+            val pr=ProgressDialog(context)
+            if (ed_add.text.toString().trim().isEmpty() && getUri==null) {
+                Toast.makeText(context, "Bài viết trống !! ", Toast.LENGTH_LONG).show()
             } else {
+                pr.show()
                 if (getUri != null) {
-                    var imgRe = FirebaseStorage.getInstance().getReference("Status").child(currenUser?.uid.toString())
-                        .child("image")
-                    val imgname = imgRe.child("" + getUri)
-                    imgname.putFile(getUri!!)
-                        .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
-                            override fun onSuccess(p0: UploadTask.TaskSnapshot?) {
-                                imgname.downloadUrl.addOnSuccessListener { p0 ->
-                                    val imageStore =
-                                        FirebaseDatabase.getInstance().getReference("Status").child(currenUser?.uid.toString())
-                                    val hashMap = HashMap<String, Any>()
-                                    //
-                                    //
-                                    hashMap.put("img", p0.toString())
-                                    hashMap.put("imageMy",getUrlImageMy)
-                                    hashMap.put("nameMy",nameMy)
-                                    hashMap.put("text",ed_add.text.toString())
-                                    hashMap.put("uid", currenUser!!.uid)
-                                    hashMap.put("time",getCurrentDate().toString())
-                                    imageStore.setValue(hashMap)
-                                        .addOnSuccessListener {
-                                            Toast.makeText(
-                                                context,
-                                                "Upload success..",
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                    ed_add.text.toString().trim()?.let {
+                        var imgRe = FirebaseStorage.getInstance().getReference("Status").child(currenUser?.uid.toString())
+                            .child("image")
+                        val imgname = imgRe.child("" + getUri)
+                        imgname.putFile(getUri!!)
+                            .addOnSuccessListener(object :
+                                OnSuccessListener<UploadTask.TaskSnapshot> {
+                                override fun onSuccess(p0: UploadTask.TaskSnapshot?) {
+                                    imgname.downloadUrl.addOnSuccessListener { p0 ->
+                                        val imageStore =
+                                            FirebaseDatabase.getInstance().getReference("Status").child(currenUser?.uid.toString())
+                                        val hashMap = HashMap<String, Any>()
+                                        //
+                                        //
+                                        hashMap.put("img", p0.toString())
+                                        hashMap.put("imageMy",getUrlImageMy)
+                                        hashMap.put("nameMy",nameMy)
+                                        hashMap.put("text",ed_add.text.toString())
+                                        hashMap.put("uid", currenUser!!.uid)
+                                        hashMap.put("time",getCurrentDate().toString())
+                                        hashMap.put("demTym", 0.toString())
+                                        imageStore.setValue(hashMap)
+                                            .addOnSuccessListener {
+                                                pr.dismiss()
+                                                Toast.makeText(
+                                                    context,
+                                                    "Upload success..",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
 
-                                            ed_add.setText("")
-                                        }.addOnFailureListener {
-                                            Toast.makeText(
-                                                context,
-                                                "no Upload ..",
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        }
+                                                ed_add.setText("")
+                                            }.addOnFailureListener {
+                                                Toast.makeText(
+                                                    context,
+                                                    "no Upload ..",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                    }
                                 }
-                            }
 
-                        })
+                            })
+                    }
+
 
 
                 }

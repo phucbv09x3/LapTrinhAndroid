@@ -1,7 +1,6 @@
 package com.monstar_lab_lifetime.laptrinhandroid.fragment
 
-import android.content.Context
-import android.net.ConnectivityManager
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +27,7 @@ class FeedFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 
-        check()
+
 
         var view = inflater!!.inflate(R.layout.fragment_feed, container, false)
 
@@ -42,29 +40,22 @@ class FeedFragment : Fragment(){
         var adapter = ArrayAdapter(
             view.context, android.R.layout.simple_spinner_dropdown_item, lang
         )
+
         spinner.adapter = adapter
         Log.d("o", "ok")
         getAll()
         rc.adapter = statusAdapter
+
+
+
         return view
     }
 
-    fun check(){
-        val connectManager=context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val wifi=connectManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-        val mobileData=connectManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
-        if (wifi.isConnectedOrConnecting){
 
-        }else{
-            if (mobileData.isConnectedOrConnecting){
-
-            }else{
-                Toast.makeText(context,"Không có internet !!",Toast.LENGTH_LONG).show()
-            }
-        }
-    }
     fun getAll(){
 
+        val pr=ProgressDialog(context)
+        pr.show()
         //val firebaseUser: FirebaseUser?= FirebaseAuth.getInstance().currentUser
         var dataReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Status")
         //val query=dataReference.orderByChild("email").equalTo(firebaseUser!!.email)
@@ -79,11 +70,12 @@ class FeedFragment : Fragment(){
                     //Toast.makeText(context,pos.child("img").toString(), Toast.LENGTH_LONG).show()
                         var obStatus= Status(pos.child("imageMy").value.toString(), pos.child("img").value.toString(),pos.child("nameMy").value.toString(),
                        pos.child("text").value.toString()
-                        ,pos.child("uid").value.toString(),pos.child("time").value.toString())
+                        ,pos.child("uid").value.toString(),pos.child("time").value.toString(),pos.child("demTym").value.toString())
                       //  var po=pos.child("img").toString()
                         mFeedList.add(obStatus)
 
                         statusAdapter.setLisst(mFeedList)
+                    pr.dismiss()
 
                 }
             }
@@ -96,6 +88,8 @@ class FeedFragment : Fragment(){
         val sdf = SimpleDateFormat(dateFormat)
         return sdf.format(date)
     }
+
+
 
 
 }

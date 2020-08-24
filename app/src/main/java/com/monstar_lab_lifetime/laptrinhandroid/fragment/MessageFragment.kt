@@ -14,11 +14,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnClickObjectSend
-import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.activity.MessageActivity
 import com.monstar_lab_lifetime.laptrinhandroid.adapter.MesAdapter
-import com.monstar_lab_lifetime.laptrinhandroid.model.FeedData
 import com.monstar_lab_lifetime.laptrinhandroid.model.MesData
 import kotlinx.android.synthetic.main.fragment_message.*
 import kotlinx.android.synthetic.main.fragment_message.view.*
@@ -27,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
 
-class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick{
+class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend{
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
@@ -103,7 +101,6 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
                 for (pos in snapshot.children){
                     var mesData=pos.getValue(MesData::class.java)
                     if (!mesData?.uid.equals(firebaseUser?.uid)){
-
                         if (mesData?.name?.toLowerCase()!!.contains(newText!!.toLowerCase())){
                             mList.add(mesData)
                             mAdapter.setList(mList)
@@ -122,9 +119,7 @@ class MessageFragment : Fragment(),CoroutineScope ,OnClickObjectSend,OnItemClick
         startActivity(intent)
     }
 
-    override fun onClicks(feedData: FeedData, position: Int) {
 
-    }
     fun getAll(){
         val firebaseUser:FirebaseUser?=FirebaseAuth.getInstance().currentUser
         var dataReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("Account")
