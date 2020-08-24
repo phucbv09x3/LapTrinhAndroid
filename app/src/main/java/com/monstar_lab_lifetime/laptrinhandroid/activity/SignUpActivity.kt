@@ -129,17 +129,18 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener, CoroutineScope
                                     finish()
                                 }
 
-                            } else {
-                                // If sign in fails, display a message to the user.
-
+                            }else{
                                 Toast.makeText(
-                                    baseContext, "Authentication failed.",
+                                    this, "Authentication failed.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
                             }
 
                         }
+                            // If sign in fails, display a message to the user.
+
+
+
 
                 } else {
                     if (hint_emailsignup.text.toString().isEmpty()) {

@@ -84,13 +84,10 @@ class AddFragment : Fragment() {
 
 
         btn_add.setOnClickListener {
-            if (ed_add.text.toString().isEmpty() && !iv_choseImage.isSelected) {
+
+            if (ed_add.text.toString().trim().isEmpty() && !iv_choseImage.isSelected) {
                 Toast.makeText(context, "Bạn chưa chọn thông tin để đăng ", Toast.LENGTH_LONG).show()
             } else {
-
-
-
-
                 if (getUri != null) {
                     var imgRe = FirebaseStorage.getInstance().getReference("Status").child(currenUser?.uid.toString())
                         .child("image")

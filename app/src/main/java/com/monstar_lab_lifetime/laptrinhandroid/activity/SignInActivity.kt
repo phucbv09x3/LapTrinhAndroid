@@ -96,7 +96,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                         updateUI(user)
                     } else {
                         Toast.makeText(
-                            baseContext, "Authentication failed.",
+                            this, "Authentication failed.",
                             Toast.LENGTH_SHORT
                         ).show()
                         updateUI(null)
@@ -121,20 +121,19 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         super.onStart()
 
     }
+
     fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
             if (currentUser.isEmailVerified) {
-             //   Toast.makeText(this, "Thành công! \n Cập nhật trang cá nhân nếu chưa có !", Toast.LENGTH_LONG).show()
-                val intent =Intent(this, ContentsActivity::class.java)
-               // intent.putExtra("Key",currentUser.email)
+                //   Toast.makeText(this, "Thành công! \n Cập nhật trang cá nhân nếu chưa có !", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, ContentsActivity::class.java)
+                // intent.putExtra("Key",currentUser.email)
                 startActivity(intent)
                 finish()
             } else {
                 Toast.makeText(this, "Please verify your email", Toast.LENGTH_LONG).show()
             }
 
-        } else {
-            Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -167,32 +166,39 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun clickFogot(view: View) {
-        val buider=AlertDialog.Builder(this)
+        val buider = AlertDialog.Builder(this)
         buider.setTitle("Đặt lại mật khẩu")
-        val linea=LinearLayout(this)
+        val linea = LinearLayout(this)
 
-        val edt_mail=EditText(this)
+        val edt_mail = EditText(this)
         linea.addView(edt_mail)
         buider.setView(linea)
         edt_mail.setHint("Nhập email bạn cần khôi phục mật khẩu")
-        buider.setPositiveButton("Gửi",{dialog: DialogInterface?, which: Int ->
-            val mAuth=FirebaseAuth.getInstance().sendPasswordResetEmail(edt_mail.text.toString().trim())
-                .addOnCompleteListener(object :OnCompleteListener<Void>{
-                    override fun onComplete(p0: Task<Void>) {
-                        if (p0.isSuccessful){
-                            Toast.makeText(this@SignInActivity,"Send success....",Toast.LENGTH_LONG).show()
+        buider.setPositiveButton("Gửi", { dialog: DialogInterface?, which: Int ->
+            val mAuth =
+                FirebaseAuth.getInstance().sendPasswordResetEmail(edt_mail.text.toString().trim())
+                    .addOnCompleteListener(object : OnCompleteListener<Void> {
+                        override fun onComplete(p0: Task<Void>) {
+                            if (p0.isSuccessful) {
+                                Toast.makeText(
+                                    this@SignInActivity,
+                                    "Send success....",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    this@SignInActivity,
+                                    "Send failed....",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
-                        else{
-                            Toast.makeText(this@SignInActivity,"Send failed....",Toast.LENGTH_LONG).show()
-                        }
-                    }
 
-                })
+                    })
         })
-       buider.setNegativeButton("Không",{
-           dialog: DialogInterface?, which: Int ->
-           dialog!!.dismiss()
-       })
+        buider.setNegativeButton("Không", { dialog: DialogInterface?, which: Int ->
+            dialog!!.dismiss()
+        })
         buider.show()
     }
 }

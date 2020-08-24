@@ -21,6 +21,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.monstar_lab_lifetime.laptrinhandroid.R
+import com.monstar_lab_lifetime.laptrinhandroid.acititynew.ContentsActivity
+import com.monstar_lab_lifetime.laptrinhandroid.activity.SignInActivity
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_trang_chu.*
@@ -85,7 +87,9 @@ class TrangChuFragment : Fragment() {
 
         btnLogout.setOnClickListener {
             mAuth.signOut()
-           // startActivity(Intent(context, SignInActivity::class.java))
+            startActivity(Intent(context, SignInActivity::class.java))
+            (context as ContentsActivity).finish()
+
         }
         imgtesst.setOnClickListener {
             val intent =
