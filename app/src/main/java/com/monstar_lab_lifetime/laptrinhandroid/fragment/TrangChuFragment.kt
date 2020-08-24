@@ -8,12 +8,10 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,29 +43,28 @@ class TrangChuFragment : Fragment() {
     private var firebaseStore: FirebaseStorage? = null
     private var userCurrent: FirebaseUser? = null
 
-    private val listSta= mutableListOf<Status>()
-    private val statusAdap=StatusAdapter(listSta)
+    private val listSta = mutableListOf<Status>()
+    private val statusAdap = StatusAdapter(listSta)
+
     @RequiresApi(Build.VERSION_CODES.KITKAT)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        var view=inflater!!.inflate(R.layout.fragment_trang_chu, container, false)
+        var view = inflater!!.inflate(R.layout.fragment_trang_chu, container, false)
         val rc = view.findViewById(R.id.rc_trangchu) as RecyclerView
         rc.layoutManager = LinearLayoutManager(view.context)
         rc.setHasFixedSize(true)
-        rc.adapter=statusAdap
+        rc.adapter = statusAdap
         getAll()
         return view
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // getStatus()
+        // getStatus()
         mAuth = FirebaseAuth.getInstance()
         userCurrent = mAuth?.currentUser
         //Toast.makeText(context, user?.uid, Toast.LENGTH_LONG).show()
@@ -85,26 +82,38 @@ class TrangChuFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val name = snapshot.child("name").value.toString()
                 val mail = snapshot.child("mail").value.toString()
-
                 val image = snapshot.child("img").value.toString()
                 testText.setText(name)
                 testEmail.setText(mail)
-
                 val avatar = view.findViewById<CircleImageView>(R.id.imgtesst)
                 Picasso.get().load(image).into(avatar)
-
-                // imgtesst.setImageURI(image)
-
             }
         })
 
 
-        btnLogout.setOnClickListener {
-            mAuth.signOut()
-            startActivity(Intent(context, SignInActivity::class.java))
-            (context as ContentsActivity).finish()
+        menu.setOnClickListener {
+            val popup: PopupMenu = PopupMenu(context, view)
+            popup.inflate(R.menu.menu_item)
+            popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+                override fun onMenuItemClick(item: MenuItem?): Boolean {
+                    when (item?.itemId) {
+                        R.id.logout -> {
+                            mAuth.signOut()
+                            startActivity(Intent(context, SignInActivity::class.java))
+                            (context as ContentsActivity).finish()
+                        }
+                        R.id.changePass -> {
+                            change()
+                        }
+                    }
+                    return true
+                }
 
+            })
+
+            popup.show()
         }
+
         imgtesst.setOnClickListener {
             val intent =
                 Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -112,40 +121,37 @@ class TrangChuFragment : Fragment() {
             startActivityForResult(intent, REQUES_CODE)
         }
 
-        btnChangePass.setOnClickListener {
-            change()
-        }
 
     }
-    fun  change(){
-        val buider= AlertDialog.Builder(context)
-        buider.setTitle("Thay đổi mật khẩu")
-        val linea=LinearLayout(context)
-        linea.orientation=LinearLayout.VERTICAL
-        val tv_email=TextView(context)
-        tv_email.setText(testEmail.text.toString())
-        tv_email.setPadding(80,10,10,10)
-        val edt_pass=EditText(context)
 
-        val confim=EditText(context)
+    fun change() {
+        val buider = AlertDialog.Builder(context)
+        buider.setTitle("Thay đổi mật khẩu cho tài khoản")
+        val linea = LinearLayout(context)
+        linea.orientation = LinearLayout.VERTICAL
+        val tv_email = TextView(context)
+        tv_email.setText(testEmail.text.toString())
+        tv_email.setPadding(80, 10, 10, 10)
+        val edt_pass = EditText(context)
+
+        val confim = EditText(context)
         linea.addView(tv_email)
         linea.addView(edt_pass)
         linea.addView(confim)
         buider.setView(linea)
         edt_pass.setHint("Nhập mật khẩu hiện tại")
         confim.setHint("Nhập lại mật khẩu")
-        userCurrent=FirebaseAuth.getInstance().currentUser
-        buider.setPositiveButton("Thay đổi",{dialog: DialogInterface?, which: Int ->
-            if (!confim.text.toString().trim().equals(edt_pass.text.toString())){
-                Toast.makeText(context,"Mật khẩu không khợp",Toast.LENGTH_LONG).show()
-            }
-            else{
+        userCurrent = FirebaseAuth.getInstance().currentUser
+        buider.setPositiveButton("Thay đổi", { dialog: DialogInterface?, which: Int ->
+            if (!confim.text.toString().trim().equals(edt_pass.text.toString())) {
+                Toast.makeText(context, "Mật khẩu không khợp", Toast.LENGTH_LONG).show()
+            } else {
                 userCurrent?.let {
                     it.updatePassword(edt_pass.text.toString().trim())
-                        .addOnCompleteListener{
-                            task ->
-                            if (task.isSuccessful){
-                                Toast.makeText(context,"Thay đổi thành công !",Toast.LENGTH_LONG).show()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Thay đổi thành công !", Toast.LENGTH_LONG)
+                                    .show()
                             }
                         }
 
@@ -153,8 +159,7 @@ class TrangChuFragment : Fragment() {
                 }
             }
         })
-        buider.setNegativeButton("Không",{
-                dialog: DialogInterface?, which: Int ->
+        buider.setNegativeButton("Không", { dialog: DialogInterface?, which: Int ->
             dialog!!.dismiss()
         })
         buider.show()
@@ -205,12 +210,14 @@ class TrangChuFragment : Fragment() {
                                 val imageStore =
                                     FirebaseDatabase.getInstance().getReference("Account")
                                         .child(userCurrent?.uid.toString())
-                                val hashMap = HashMap<String, Any>()
-                                hashMap.put("img", p0.toString())
-                                hashMap.put("mail", userCurrent!!.email.toString())
-                                hashMap.put("name", testText.text.toString())
-                                hashMap.put("uid", userCurrent!!.uid)
-                                imageStore.setValue(hashMap)
+//                                val hashMap = HashMap<String, Any>()
+//                                hashMap.put("img", p0.toString())
+//                                hashMap.put("mail", userCurrent!!.email.toString())
+//                                hashMap.put("name", testText.text.toString())
+//                                hashMap.put("uid", userCurrent!!.uid)
+
+
+                                imageStore.child("img").setValue(p0.toString())
                                     .addOnSuccessListener {
                                         Toast.makeText(
                                             context,
@@ -224,6 +231,23 @@ class TrangChuFragment : Fragment() {
                                             Toast.LENGTH_LONG
                                         ).show()
                                     }
+                                val changImageStatus =
+                                    FirebaseDatabase.getInstance().getReference("Status")
+
+                                //changImageStatus.child("uid").setValue(userCurrent!!.uid)
+                                changImageStatus.orderByChild("uid").equalTo(userCurrent!!.uid)
+                                    .addValueEventListener(object : ValueEventListener {
+                                        override fun onCancelled(error: DatabaseError) {
+
+                                        }
+
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            for (pos in snapshot.children) {
+                                                pos.ref.child("imageMy").setValue(p0.toString())
+                                            }
+                                        }
+
+                                    })
                             }
                         }
 
@@ -234,24 +258,31 @@ class TrangChuFragment : Fragment() {
 
         }
     }
-    fun getAll(){
+
+    fun getAll() {
 
 
-        val firebaseUser: FirebaseUser?= FirebaseAuth.getInstance().currentUser
+        val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         var dataReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Status")
-        val query=dataReference.orderByChild("uid").equalTo(firebaseUser!!.uid)
+        val query = dataReference.orderByChild("uid").equalTo(firebaseUser!!.uid)
         query.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 listSta.clear()
-                for (pos in snapshot.children){
-                    var status: Status =pos.getValue(Status::class.java)!!
+                for (pos in snapshot.children) {
+                    var status: Status = pos.getValue(Status::class.java)!!
                     //Toast.makeText(context,pos.child("img").toString(), Toast.LENGTH_LONG).show()
-                    var obStatus= Status(pos.child("imageMy").value.toString(), pos.child("img").value.toString(),pos.child("nameMy").value.toString(),
-                        pos.child("text").value.toString()
-                        ,pos.child("uid").value.toString(),pos.child("time").value.toString(),pos.child("demTym").value.toString())
+                    var obStatus = Status(
+                        pos.child("imageMy").value.toString(),
+                        pos.child("img").value.toString(),
+                        pos.child("nameMy").value.toString(),
+                        pos.child("text").value.toString(),
+                        pos.child("uid").value.toString(),
+                        pos.child("time").value.toString(),
+                        pos.child("demTym").value.toString()
+                    )
                     //  var po=pos.child("img").toString()
                     listSta.add(obStatus)
 

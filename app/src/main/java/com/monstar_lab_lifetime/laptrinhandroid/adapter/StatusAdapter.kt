@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
+import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.model.Status
 import com.squareup.picasso.Picasso
@@ -13,7 +15,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class StatusAdapter( var listStatus :MutableList<Status>) : RecyclerView.Adapter<StatusAdapter.StatusViewHolder>() {
 
-
+     var onItemClick: OnItemClick?=null
     fun setLisst(listStatus: MutableList<Status>){
         this.listStatus=listStatus
         notifyDataSetChanged()
@@ -39,6 +41,11 @@ class StatusAdapter( var listStatus :MutableList<Status>) : RecyclerView.Adapter
         val imaAdd=list.imgAdd
         Picasso.get().load(imMy).into(holder.imageMy)
         Picasso.get().load(imaAdd).into(holder.imageAdd)
+        holder.heart.setOnClickListener {
+            onItemClick?.onClicks(list,position)
+        }
+        holder.countHeart.setText(list.countHeart)
+
     }
     class StatusViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val imageMy=itemView.findViewById<CircleImageView>(R.id.cv_image)
@@ -46,5 +53,7 @@ class StatusAdapter( var listStatus :MutableList<Status>) : RecyclerView.Adapter
         val nameMy=itemView.findViewById<TextView>(R.id.tv_top)
         val textContent=itemView.findViewById<TextView>(R.id.tv_content)
         val textTime=itemView.findViewById<TextView>(R.id.tv_bottom)
+        val heart=itemView.findViewById<ToggleButton>(R.id.iv_heart)
+        val countHeart=itemView.findViewById<TextView>(R.id.tv_countHeart)
     }
 }

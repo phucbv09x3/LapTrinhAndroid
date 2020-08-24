@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
@@ -32,7 +33,7 @@ class FeedAdapter(var feedList: MutableList<FeedData>, var onItemClick: OnItemCl
         holder.content.text = (feedData.mContent)
         holder.imageContent.setImageResource(feedData.mImageContent)
         holder.imageProfile.setOnClickListener {
-            onItemClick.onClicks(feedData, position)
+
         }
 
 
@@ -55,7 +56,7 @@ class FeedAdapter(var feedList: MutableList<FeedData>, var onItemClick: OnItemCl
         val content = itemView.findViewById(R.id.tv_content) as TextView
         val imageContent = itemView.findViewById(R.id.iv_content) as ImageView
 
-        // val heart=itemView.findViewById(R.id.iv_heart) as ImageButton
+         val heart=itemView.findViewById(R.id.iv_heart) as ToggleButton
     }
 
 

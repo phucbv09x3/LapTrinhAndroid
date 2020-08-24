@@ -11,6 +11,8 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.adapter.StatusAdapter
@@ -56,9 +58,9 @@ class FeedFragment : Fragment(){
 
         val pr=ProgressDialog(context)
         pr.show()
-        //val firebaseUser: FirebaseUser?= FirebaseAuth.getInstance().currentUser
+        val firebaseUser: FirebaseUser?= FirebaseAuth.getInstance().currentUser
         var dataReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Status")
-        //val query=dataReference.orderByChild("email").equalTo(firebaseUser!!.email)
+       val query=dataReference.orderByChild("ketStar")
         dataReference.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }

@@ -67,6 +67,7 @@
             app:layout_constraintTop_toTopOf="@id/cv_imageMy" />
 
         <EditText
+            android:hint="Bạn đang nghĩ gì ?"
             android:id="@+id/ed_add"
             android:layout_width="300dp"
             android:layout_height="wrap_content"

@@ -69,7 +69,7 @@ class AddFragment : Fragment() {
 
                 val image = snapshot.child("img").value.toString()
                 tv_my.setText(name)
-                this@AddFragment.getUrlImageMy=image
+               this@AddFragment.getUrlImageMy=image
 
                 this@AddFragment.nameMy=name
                 val avatar = view.findViewById<CircleImageView>(R.id.cv_imageMy)
@@ -101,10 +101,11 @@ class AddFragment : Fragment() {
                                 override fun onSuccess(p0: UploadTask.TaskSnapshot?) {
                                     imgname.downloadUrl.addOnSuccessListener { p0 ->
                                         val imageStore =
-                                            FirebaseDatabase.getInstance().getReference("Status").child(currenUser?.uid.toString())
+                                            FirebaseDatabase.getInstance().getReference("Status")
                                         val hashMap = HashMap<String, Any>()
                                         //
                                         //
+                                        val key=imageStore.push().key
                                         hashMap.put("img", p0.toString())
                                         hashMap.put("imageMy",getUrlImageMy)
                                         hashMap.put("nameMy",nameMy)
@@ -112,7 +113,8 @@ class AddFragment : Fragment() {
                                         hashMap.put("uid", currenUser!!.uid)
                                         hashMap.put("time",getCurrentDate().toString())
                                         hashMap.put("demTym", 0.toString())
-                                        imageStore.setValue(hashMap)
+                                        hashMap.put("keySta",key.toString())
+                                        imageStore.child(key!!).setValue(hashMap)
                                             .addOnSuccessListener {
                                                 pr.dismiss()
                                                 Toast.makeText(

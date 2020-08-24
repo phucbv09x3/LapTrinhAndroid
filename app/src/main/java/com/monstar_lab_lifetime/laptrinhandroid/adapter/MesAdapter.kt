@@ -47,6 +47,7 @@ class MesAdapter(
         holder.mNameMess.text = list.name
         holder.mail.text = list.mail
         var imageV = list.image
+
         if (imageV.trim().isEmpty()) {
 
             Picasso.get().load("http")
@@ -57,9 +58,10 @@ class MesAdapter(
             } catch (e: IOException) {
                 Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
             }
-            holder.itemView.setOnClickListener {
-                onClickItemSend.onClick(list, position)
-            }
+
+        }
+        holder.itemView.setOnClickListener {
+            onClickItemSend.onClick(list, position)
         }
     }
 }
