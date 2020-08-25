@@ -8,13 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.model.MesData
-import com.monstar_lab_lifetime.laptrinhandroid.model.Status
-import kotlinx.android.synthetic.main.item_feed.*
 
-class ContentsActivity : AppCompatActivity(),OnItemClick {
+class ContentsActivity : AppCompatActivity() {
     var tabLayOut:TabLayout?=null
     var viewPager:ViewPager?=null
     var mList = mutableListOf<MesData>()
@@ -71,18 +68,5 @@ class ContentsActivity : AppCompatActivity(),OnItemClick {
         }
     }
 
-    override fun onClicks(list: Status, position: Int) {
 
-            Toast.makeText(this,"pjiv",Toast.LENGTH_LONG).show()
-
-            var dem =list.countHeart.toInt()
-            tv_countHeart?.let {  if (iv_heart.isChecked){
-                dem++
-
-                Toast.makeText(this,position.toString(), Toast.LENGTH_LONG).show()
-                // tv_countHeart.setText(dem.toString())
-            }
-            }
-
-    }
 }

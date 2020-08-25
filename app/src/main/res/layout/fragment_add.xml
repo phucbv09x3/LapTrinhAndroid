@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.AddFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#ffffff"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ffffff">
 
         <TextView
             android:id="@+id/tv_createAdd"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="4dp"
             android:gravity="center"
             android:text="Tạo bài viết"
@@ -28,11 +29,11 @@
             android:layout_width="70dp"
             android:layout_height="28dp"
             android:layout_marginRight="12dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/rectag_share"
             android:text="Đăng"
             android:textSize="16dp"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tv_createAdd"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_createAdd" />
 
         <TextView
@@ -47,7 +48,7 @@
             android:id="@+id/cv_imageMy"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="18dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/iconapp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -67,33 +68,50 @@
             app:layout_constraintTop_toTopOf="@id/cv_imageMy" />
 
         <EditText
-            android:hint="Bạn đang nghĩ gì ?"
             android:id="@+id/ed_add"
-            android:layout_width="300dp"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
+            android:hint="Bạn đang nghĩ gì ?"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cv_imageMy" />
 
         <Button
             android:id="@+id/btn_addImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rectag_share"
+            android:drawableLeft="@drawable/ic_baseline_photo_camera_24"
+            android:paddingLeft="5dp"
             android:text="Chọn ảnh"
+            android:textAllCaps="false"
+            android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="@id/ed_add"
+            app:layout_constraintTop_toBottomOf="@id/ed_add" />
+
+        <Button
+            android:id="@+id/btn_addVideo"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rectag_share"
+            android:drawableLeft="@drawable/ic_baseline_videocam_24"
+            android:paddingLeft="5dp"
+            android:text="Chọn Video"
+            android:textAllCaps="false"
+            android:textSize="20dp"
+            app:layout_constraintRight_toRightOf="@id/ed_add"
             app:layout_constraintTop_toBottomOf="@id/ed_add" />
 
         <ImageView
             android:id="@+id/iv_choseImage"
             android:layout_width="0dp"
-            android:layout_marginTop="4dp"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/btn_addImage"
+            android:layout_marginTop="4dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             app:layout_constraintLeft_toLeftOf="@id/btn_addImage"
-            app:layout_constraintRight_toRightOf="@id/ed_add" />
+            app:layout_constraintRight_toRightOf="@id/ed_add"
+            app:layout_constraintTop_toBottomOf="@id/btn_addImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

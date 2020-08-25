@@ -8,27 +8,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.adapter.StatusAdapter
 import com.monstar_lab_lifetime.laptrinhandroid.model.Status
+import kotlinx.android.synthetic.main.item_feed.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class FeedFragment : Fragment(){
-    private var mFeedList :MutableList<Status> = mutableListOf()
-   private var statusAdapter=StatusAdapter(mFeedList)
+class FeedFragment : Fragment(), OnItemClick {
+    private var mFeedList: MutableList<Status> = mutableListOf()
+    private var statusAdapter = StatusAdapter(mFeedList)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
 
         var view = inflater!!.inflate(R.layout.fragment_feed, container, false)
@@ -54,29 +56,36 @@ class FeedFragment : Fragment(){
     }
 
 
-    fun getAll(){
+    fun getAll() {
 
-        val pr=ProgressDialog(context)
+        val pr = ProgressDialog(context)
         pr.show()
-        val firebaseUser: FirebaseUser?= FirebaseAuth.getInstance().currentUser
+        val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         var dataReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Status")
-       val query=dataReference.orderByChild("ketStar")
-        dataReference.addValueEventListener(object : ValueEventListener {
+        val quer=dataReference.limitToLast(50)
+        quer.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 mFeedList.clear()
-                for (pos in snapshot.children){
-                    var status: Status =pos.getValue(Status::class.java)!!
+                for (pos in snapshot.children) {
+                    var status: Status = pos.getValue(Status::class.java)!!
                     //Toast.makeText(context,pos.child("img").toString(), Toast.LENGTH_LONG).show()
-                        var obStatus= Status(pos.child("imageMy").value.toString(), pos.child("img").value.toString(),pos.child("nameMy").value.toString(),
-                       pos.child("text").value.toString()
-                        ,pos.child("uid").value.toString(),pos.child("time").value.toString(),pos.child("demTym").value.toString())
-                      //  var po=pos.child("img").toString()
-                        mFeedList.add(obStatus)
+                    var obStatus = Status(
+                        pos.child("imageMy").value.toString(),
+                        pos.child("img").value.toString(),
+                        pos.child("nameMy").value.toString(),
+                        pos.child("text").value.toString()
+                        ,
+                        pos.child("uid").value.toString(),
+                        pos.child("time").value.toString(),
+                        pos.child("demTym").value.toString()
+                    )
+                    //  var po=pos.child("img").toString()
+                    mFeedList.add(obStatus)
 
-                        statusAdapter.setLisst(mFeedList)
+                    statusAdapter.setLisst(mFeedList)
                     pr.dismiss()
 
                 }
@@ -84,14 +93,26 @@ class FeedFragment : Fragment(){
 
         })
     }
-    private fun getCurrentDate():String {
+
+    private fun getCurrentDate(): String {
         val date = Date()
         val dateFormat = "dd/MM/yyyy hh:mm"
         val sdf = SimpleDateFormat(dateFormat)
         return sdf.format(date)
     }
 
+    override fun onClicks(list: Status, position: Int) {
+        Toast.makeText(context, "pjiv", Toast.LENGTH_LONG).show()
 
+        var dem = list.countHeart.toInt()
+        tv_countHeart?.let {
+            if (iv_heart.isChecked) {
+                dem++
+                Toast.makeText(context, position.toString(), Toast.LENGTH_LONG).show()
+                // tv_countHeart.setText(dem.toString())
+            }
+        }
+    }
 
 
 }
