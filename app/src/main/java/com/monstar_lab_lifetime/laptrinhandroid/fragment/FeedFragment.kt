@@ -62,7 +62,7 @@ class FeedFragment : Fragment(), OnItemClick {
         pr.show()
         val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         var dataReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Status")
-        val quer=dataReference.limitToLast(50)
+        val quer=dataReference.limitToFirst(50)
         quer.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }

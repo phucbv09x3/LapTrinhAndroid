@@ -17,7 +17,7 @@
         android:roundIcon="@drawable/iconapp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".acititynew.ContentsActivity"></activity>
+        <activity android:name=".activity.ContentsActivity"></activity>
         <activity android:name=".activity.MessageActivity" />
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.SignInActivity"

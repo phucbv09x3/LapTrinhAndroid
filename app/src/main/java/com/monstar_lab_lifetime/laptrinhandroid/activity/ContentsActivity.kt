@@ -1,4 +1,4 @@
-package com.monstar_lab_lifetime.laptrinhandroid.acititynew
+package com.monstar_lab_lifetime.laptrinhandroid.activity
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.monstar_lab_lifetime.laptrinhandroid.R
+import com.monstar_lab_lifetime.laptrinhandroid.adapter.ContentsAdapter
 import com.monstar_lab_lifetime.laptrinhandroid.model.MesData
 
 class ContentsActivity : AppCompatActivity() {
@@ -31,7 +32,12 @@ class ContentsActivity : AppCompatActivity() {
         tabLayOut!!.tabGravity=TabLayout.GRAVITY_FILL
 
 
-        val  contentsAdapter=ContentsAdapter(this,supportFragmentManager,tabLayOut!!.tabCount)
+        val  contentsAdapter=
+            ContentsAdapter(
+                this,
+                supportFragmentManager,
+                tabLayOut!!.tabCount
+            )
         viewPager!!.adapter=contentsAdapter
 
 

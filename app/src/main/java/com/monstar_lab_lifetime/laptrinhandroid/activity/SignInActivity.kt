@@ -17,8 +17,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.monstar_lab_lifetime.laptrinhandroid.R
-import com.monstar_lab_lifetime.laptrinhandroid.acititynew.ContentsActivity
-import com.monstar_lab_lifetime.laptrinhandroid.activity.SignUpActivity
 import com.monstar_lab_lifetime.laptrinhandroid.database.AccountDatabase
 import kotlinx.android.synthetic.main.activity_sign_in.*
 

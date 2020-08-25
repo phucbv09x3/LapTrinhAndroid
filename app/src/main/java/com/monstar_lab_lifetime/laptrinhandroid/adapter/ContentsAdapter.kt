@@ -1,4 +1,4 @@
-package com.monstar_lab_lifetime.laptrinhandroid.acititynew
+package com.monstar_lab_lifetime.laptrinhandroid.adapter
 
 import android.content.Context
 import androidx.fragment.app.Fragment

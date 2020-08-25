@@ -13,40 +13,45 @@ import de.hdodenhof.circleimageview.CircleImageView
 class ChatsAdapter :
     RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
     private var listChat: MutableList<Chats> = mutableListOf()
-    companion object{
-        val TYPE_LEFT=0
-        val TYPE_RIGHT=1
+
+    companion object {
+        val TYPE_LEFT = 0
+        val TYPE_RIGHT = 1
     }
-    fun setList(listChat: MutableList<Chats>){
-        this.listChat=listChat
+
+    fun setList(listChat: MutableList<Chats>) {
+        this.listChat = listChat
         notifyDataSetChanged()
     }
-    class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var  message=itemView.findViewById<TextView>(R.id.tv_chatLeft)
-        var image=itemView.findViewById<CircleImageView>(R.id.img_chatLeft)
-       // var time=itemView.findViewById<TextView>(R.id.tv_timeSendLeft)
 
-        var xacnhan=itemView.findViewById<TextView>(R.id.tv_isSeen)
+    class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var message = itemView.findViewById<TextView>(R.id.tv_chatLeft)
+        var image = itemView.findViewById<CircleImageView>(R.id.img_chatLeft)
+        // var time=itemView.findViewById<TextView>(R.id.tv_timeSendLeft)
+
+        var xacnhan = itemView.findViewById<TextView>(R.id.tv_isSeen)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-       if (viewType== TYPE_RIGHT){
-           val view = LayoutInflater.from(parent.context).inflate(R.layout.show_chat_right, parent, false)
-           return ChatViewHolder(view)
-       }else{
-           val view = LayoutInflater.from(parent.context).inflate(R.layout.show_chat_left, parent, false)
-           return ChatViewHolder(view)
-       }
+        if (viewType == TYPE_RIGHT) {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.show_chat_right, parent, false)
+            return ChatViewHolder(view)
+        } else {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.show_chat_left, parent, false)
+            return ChatViewHolder(view)
+        }
 
     }
 
     override fun getItemCount(): Int {
-       return listChat.size
+        return listChat.size
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        var list=listChat[position]
-        holder.message.text=list.message
+        var list = listChat[position]
+        holder.message.text = list.message
 
 
 //        if (position==listChat.size-1){
@@ -63,11 +68,10 @@ class ChatsAdapter :
     }
 
     override fun getItemViewType(position: Int): Int {
-        var user=FirebaseAuth.getInstance().currentUser
-        if (listChat[position].sender.equals(user?.uid)){
+        var user = FirebaseAuth.getInstance().currentUser
+        if (listChat[position].sender.equals(user?.uid)) {
             return TYPE_RIGHT
-        }
-        else{
+        } else {
             return TYPE_LEFT
         }
 

@@ -10,4 +10,12 @@
         android:title="ChangePassWord"
 
        />
+    <item android:id="@+id/stting"
+        android:title="Setting"/>
+
+    <item android:id="@+id/help"
+        android:title="Help"/>
+
+
+
 </menu>

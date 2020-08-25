@@ -24,7 +24,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.monstar_lab_lifetime.laptrinhandroid.R
-import com.monstar_lab_lifetime.laptrinhandroid.acititynew.ContentsActivity
+import com.monstar_lab_lifetime.laptrinhandroid.activity.ContentsActivity
 import com.monstar_lab_lifetime.laptrinhandroid.activity.SignInActivity
 import com.monstar_lab_lifetime.laptrinhandroid.adapter.StatusAdapter
 import com.monstar_lab_lifetime.laptrinhandroid.model.Status
@@ -104,6 +104,13 @@ class TrangChuFragment : Fragment() {
                         }
                         R.id.changePass -> {
                             change()
+                        }
+                        R.id.stting->{
+
+                          
+                        }
+                        R.id.help->{
+
                         }
                     }
                     return true
