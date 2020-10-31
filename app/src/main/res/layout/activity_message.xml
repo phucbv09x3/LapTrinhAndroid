@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.monstar_lab_lifetime.laptrinhandroid.activity.MessageActivity">
+    tools:context="com.monstar_lab_lifetime.laptrinhandroid.activity.ChatsActivity">
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgPeopleSend"
@@ -12,9 +13,9 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/iconapp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_marginLeft="12dp"
-        android:layout_height="70dp"/>
+        android:layout_height="60dp"/>
     <TextView
         android:id="@+id/tv_PeopleSend"
         android:text="name"
@@ -27,12 +28,13 @@
         app:layout_constraintLeft_toRightOf="@id/imgPeopleSend"
         app:layout_constraintRight_toLeftOf="@id/btn_send"
         android:layout_width="0dp"
+        android:layout_marginRight="25dp"
         android:layout_marginLeft="8dp"
         android:layout_height="wrap_content"/>
     <EditText
     android:id="@+id/edt_send"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintLeft_toRightOf="@id/btn_chooseImage"
     app:layout_constraintRight_toLeftOf="@id/btn_send"
     android:layout_width="0dp"
     android:layout_marginLeft="8dp"
@@ -51,6 +53,22 @@
         android:background="@drawable/ic_baseline_send_24"
         app:layout_constraintTop_toTopOf="@id/edt_send"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+    <Button
+        android:id="@+id/btn_chooseImage"
+        android:background="@drawable/ic_baseline_image_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/edt_send"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+    <Button
+        android:id="@+id/btn_call"
+        android:background="@drawable/ic_baseline_call_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/imgPeopleSend"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="5dp"
         android:layout_width="50dp"
         android:layout_height="50dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

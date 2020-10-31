@@ -17,8 +17,13 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    repositories {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+        repositories {
         google()
+        jcenter()
     }
     buildTypes {
         release {
@@ -39,6 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation fileTree(dir: 'C:\\Users\\Phuc37\\Desktop\\sinch-android-rtc-3.17.5\\sinch-android-rtc-3.17.5\\libs', include: ['*.aar', '*.jar'], exclude: [])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

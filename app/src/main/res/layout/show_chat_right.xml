@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="4dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="35dp"
-        android:visibility="gone"
-        android:id="@+id/img_chatLeft"
-        android:src="@drawable/iconapp"
-        android:layout_gravity="center_vertical"
-        android:layout_height="35dp"/>
+
     <TextView
-        android:textDirection="rtl"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/img_chatLeft"
-        android:layout_marginLeft="20dp"
         android:id="@+id/tv_chatLeft"
-        android:textColor="#FFFFFF"
-        android:paddingLeft="13dp"
-        android:paddingTop="4dp"
-        android:textSize="18dp"
-        android:maxWidth="300dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="4dp"
-        android:paddingBottom="4dp"
-        android:paddingRight="13dp"
-        android:gravity="center_vertical"
         android:background="@drawable/rectange_my_send"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:maxWidth="300dp"
+        android:layoutDirection="ltr"
+        android:paddingLeft="13dp"
+        android:paddingTop="4dp"
+        android:paddingRight="13dp"
+        android:paddingBottom="4dp"
         android:text="Hello ba con"
-        android:layout_height="wrap_content"/>
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline52"
@@ -48,14 +37,37 @@
 
 
     <TextView
-        app:layout_constraintBottom_toTopOf="@id/tv_chatLeft"
-        android:id="@+id/tv_isSeen"
-        android:text="delivered"
+        android:id="@+id/tv_isSeenR"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:gravity="right"
         android:visibility="gone"
-        android:paddingRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
-
+        android:textColor="#000000"
+        android:text="delivered"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_chatLeft" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline522"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5222"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+    <ImageView
+        android:id="@+id/img_showLeft"
+        android:layout_width="0dp"
+        android:src="@drawable/sam"
+        android:layout_height="300dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@id/guideline522"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="@id/guideline5222" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

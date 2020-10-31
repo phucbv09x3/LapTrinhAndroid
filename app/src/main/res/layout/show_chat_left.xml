@@ -53,5 +53,16 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/tv_chatLeft" />
 
+    <ImageView
+        android:id="@+id/img_showLeft"
+        android:layout_width="0dp"
+        android:src="@drawable/sam"
+        android:layout_marginLeft="6dp"
+        android:scaleType="fitXY"
+        android:layout_height="300dp"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="@id/guideline5"
+        app:layout_constraintTop_toTopOf="@id/img_chatLeft"
+        app:layout_constraintLeft_toRightOf="@id/img_chatLeft" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

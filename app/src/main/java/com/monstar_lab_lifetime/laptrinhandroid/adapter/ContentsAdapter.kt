@@ -10,23 +10,23 @@ class ContentsAdapter(private val content:Context,fm:FragmentManager, internal v
     override fun getItem(position: Int): Fragment {
         when(position){
             0->{
-                return FeedFragment()
+                return StatusHomeFragment()
             }
 
             1->{
-                return MessageFragment()
+                return ListMessageFragment()
             }
 
             2->{
-                return AddFragment()
+                return CreateStatusFragment()
             }
             3->{
                 return NotifycationFragment()
             }
             4->{
-                return TrangChuFragment()
+                return MyHomeFragment()
             }
-         else->return FeedFragment()
+         else->return StatusHomeFragment()
         }
     }
 

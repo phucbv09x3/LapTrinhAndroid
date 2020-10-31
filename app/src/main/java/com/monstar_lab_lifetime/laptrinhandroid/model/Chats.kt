@@ -4,10 +4,10 @@ package com.monstar_lab_lifetime.laptrinhandroid.model
      var message:String?=""
      var receive:String?=""
      var sender:String?=""
+     var image:String?=""
      var time:String?=""
-     var isSeen:Boolean=false
+     var isSeen:String=""
      constructor(){
-
      }
 
 }

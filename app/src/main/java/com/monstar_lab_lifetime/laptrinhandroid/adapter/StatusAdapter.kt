@@ -7,19 +7,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.database.FirebaseDatabase
+import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnClickCall
 import com.monstar_lab_lifetime.laptrinhandroid.Interface.OnItemClick
 import com.monstar_lab_lifetime.laptrinhandroid.R
 import com.monstar_lab_lifetime.laptrinhandroid.model.Status
-import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class StatusAdapter( var listStatus :MutableList<Status>) : RecyclerView.Adapter<StatusAdapter.StatusViewHolder>() {
+class StatusAdapter(var listStatus: MutableList<Status>) :
+    RecyclerView.Adapter<StatusAdapter.StatusViewHolder>() {
 
-     var onItemClick: OnItemClick?=null
-    fun setLisst(listStatus: MutableList<Status>){
-        this.listStatus=listStatus
+    private var onItemClick: OnItemClick? = null
+    private var clickCall: OnClickCall? = null
+    fun setLisst(listStatus: MutableList<Status>) {
+        this.listStatus = listStatus
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,27 +38,42 @@ class StatusAdapter( var listStatus :MutableList<Status>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: StatusAdapter.StatusViewHolder, position: Int) {
-       val list=listStatus[position]
-        holder.nameMy.text=list.nameMy
-        holder.textContent.text=list.textAdd
-        holder.textTime.text=list.time
-        val imMy=list.imgMy
-        val imaAdd=list.imgAdd
-        Picasso.get().load(imMy).into(holder.imageMy)
-        Picasso.get().load(imaAdd).into(holder.imageAdd)
-        holder.heart.setOnClickListener {
-            onItemClick?.onClicks(list,position)
+        val list = listStatus[position]
+        holder.nameMy.text = list.nameMy
+        holder.textContent.text = list.textAdd
+        holder.textTime.text = list.time
+        Glide.with(holder.imageMy).load(list.imgMy).error(R.drawable.heart_rd).into(holder.imageMy)
+        Glide.with(holder.imageAdd).load(list.imgAdd).error(R.drawable.heart_rd)
+            .into(holder.imageAdd)
+        holder.countHear.text = list.countHeart.toString()
+        var count=list.countHeart
+        val dataReference = FirebaseDatabase.getInstance().getReference("Status")
+        holder.heart.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (buttonView.isChecked){
+                count++
+
+                dataReference.child("${list?.uid}").child("demTym").setValue(count)
+                    .addOnSuccessListener {
+
+                    }
+            }else{
+                count--
+                dataReference.child("${list?.uid}").child("demTym").setValue(count)
+                    .addOnSuccessListener {
+
+                    }
+            }
         }
-        holder.countHeart.setText(list.countHeart)
 
     }
-    class StatusViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        val imageMy=itemView.findViewById<CircleImageView>(R.id.cv_image)
-        val imageAdd=itemView.findViewById<ImageView>(R.id.iv_content)
-        val nameMy=itemView.findViewById<TextView>(R.id.tv_top)
-        val textContent=itemView.findViewById<TextView>(R.id.tv_content)
-        val textTime=itemView.findViewById<TextView>(R.id.tv_bottom)
-        val heart=itemView.findViewById<ToggleButton>(R.id.iv_heart)
-        val countHeart=itemView.findViewById<TextView>(R.id.tv_countHeart)
+
+    class StatusViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageMy = itemView.findViewById<CircleImageView>(R.id.cv_image)
+        val imageAdd = itemView.findViewById<ImageView>(R.id.iv_content)
+        val nameMy = itemView.findViewById<TextView>(R.id.tv_top)
+        val textContent = itemView.findViewById<TextView>(R.id.tv_content)
+        val textTime = itemView.findViewById<TextView>(R.id.tv_bottom)
+        var heart = itemView.findViewById<ToggleButton>(R.id.iv_heart)
+        val countHear = itemView.findViewById<TextView>(R.id.tv_countHeart)
     }
 }

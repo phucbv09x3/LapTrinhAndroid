@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.TrangChuFragment">
+    tools:context=".fragment.MyHomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contra"
@@ -26,7 +25,6 @@
             android:id="@+id/imgtesst"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
             android:src="@drawable/ic_baseline_photo_camera_24"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -227,5 +225,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>
